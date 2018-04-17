@@ -2,7 +2,7 @@
 #define __TGT_AP_FLASH_PARTS_H__
 
 #define MTDPARTS_DEF			\
-		"2M@128K(bootloader),"	\
+		"2M@0(bootloader),"	\
 		"2M(factorydata),"	\
 		"2M(misc),"	        \
 		"4M(modem),"		\
@@ -11,8 +11,8 @@
 		MTDPARTS_ANDROID_DEF
 
 #define MTDPARTS_ANDROID_DEF		\
-		"300M(system),"		\
-		"300M(vendor),"     \
+		"145M(system),"		\
+		"180M(vendor),"     \
 		"-(userdata)"
 
 /*
