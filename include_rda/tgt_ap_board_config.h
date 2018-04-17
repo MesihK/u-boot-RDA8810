@@ -100,7 +100,6 @@
 
 /*#define _TGT_AP_BOARD_HAS_ATV*/
 
-#define CONFIG_SDMMC_BOOT 1
 #define _TGT_AP_VIBRATOR_POWER_ON   (1)
 # define _TGT_AP_VIBRATOR_TIME       (300)
 
