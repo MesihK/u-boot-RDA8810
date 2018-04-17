@@ -155,7 +155,8 @@ PROTECTED VOID hal_BoardSetupGeneral(CONST HAL_CFG_CONFIG_T* halCfg)
 
     UINT32 gpoClr_A = 0;
 
-#ifdef FPGA
+//#ifdef FPGA
+#if 1 // temporary commented, because error exist on boot from nand
 
     // no muxing, do nothing
 
