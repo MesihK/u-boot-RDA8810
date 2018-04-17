@@ -414,16 +414,22 @@ int nand_data_end(uint32_t crc)
 int nand_read_partition(const char *part_name, u8 *data, size_t size,
 			size_t *actual_len)
 {
+	if(size > download_max_size) {
+		pdl_info("can't read partition '%s', size is too large\n", part_name);
+		return OPERATION_FAILED;
+	}
+
+	return _nand_read_partition(part_name, data, 0, size, actual_len);
+}
+
+int _nand_read_partition(const char *part_name, u8 *data, size_t  offset,
+		size_t size, size_t *actual_len)
+{
 	struct part_info *part = NULL;
         u8 part_num;
 	struct mtd_info *nand = NULL;
 	struct mtd_device *dev;
 	int ret;
-
-	if(size > download_max_size) {
-		pdl_info("can't read partition '%s', size is too large\n", part_name);
-		return OPERATION_FAILED;
-	}
 
 #ifdef MTDPARTS_UBI_DEF /* all ubi volumes are in one ubi part */
 	if(strstr(MTDPARTS_UBI_DEF, part_name)) {
@@ -455,7 +461,7 @@ int nand_read_partition(const char *part_name, u8 *data, size_t size,
 		return INVALID_PARTITION;
 	}
 
-	pdl_info("%s: read %#x bytes from '%s'\n", __func__, size, part_name);
+	pdl_info("%s: read %#x (offset: %#x) bytes from '%s'\n", __func__, size, offset, part_name);
 	nand = &nand_info[dev->id->num];
 	pdl_dbg("found part '%s' offset: 0x%llx length: %d/%llu id: %d\n",
 		  part->name, part->offset, size, part->size, dev->id->num);
@@ -468,7 +474,7 @@ int nand_read_partition(const char *part_name, u8 *data, size_t size,
 			return DEVICE_ERROR;
 		}
 	} else {
-		ret = nand_read_skip_bad(nand, part->offset, &size,
+		ret = nand_read_skip_bad(nand, part->offset + offset, &size,
 			(u_char *)data);
 		if(ret < 0) {
 			pdl_error("%s: read from nand error\n", __func__);

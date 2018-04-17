@@ -208,6 +208,7 @@ int data_exec(struct pdl_packet *packet, void *arg)
 
 int read_partition(struct pdl_packet *packet, void *arg)
 {
+	size_t offset = packet->cmd_header.data_addr;
 	size_t size = packet->cmd_header.data_size;
 	char part_name[MAX_PART_NAME + 1] = {'\0'};
 	int ret;
@@ -234,7 +235,7 @@ int read_partition(struct pdl_packet *packet, void *arg)
 		ret = emmc_read_partition(part_name, data, size,
 				&actual_len);
 	else
-		ret = nand_read_partition(part_name, data, size,
+		ret = _nand_read_partition(part_name, data, offset, size,
 				&actual_len);
 	if (ret) {
 		pdl_send_rsp(ret);
