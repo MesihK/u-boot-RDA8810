@@ -219,7 +219,7 @@
 {                                                                       \
     .sdmmcUsed          = TRUE,                                         \
     .sdmmc2Used         = TRUE,                                         \
-    .sdmmc3Used         = TRUE,                                        \
+    .sdmmc3Used         = FALSE,                                        \
 }
 #endif
 
