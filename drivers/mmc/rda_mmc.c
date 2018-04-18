@@ -681,7 +681,7 @@ static int rda_mmc_host_init(struct mmc *dev)
 	HWP_SDMMC_T*  hwp_sdmmc = (HWP_SDMMC_T*)(host->phyaddr);
 	struct spl_emmc_info *info = get_bd_spl_emmc_info();
 
-	// clk_div = 0;		// for APB2 = 48M, 48/2
+	//clk_div = 0;		// for APB2 = 48M, 48/2
 	//clk_div = 1;		// for APB2 = 120M, 120/4
 	clk_div = 0x21;		// for APB2 = 240M, 240/16
 
@@ -830,7 +830,7 @@ int mmc_write(struct mmc *mmc, u64 to, uchar *buf, int size)
 
 static void setup_bb_cfg_sdmmc(void)
 {
-#ifdef CONFIG_SDMMC_BOOT
+#if 1 //def CONFIG_SDMMC_BOOT
     unsigned long temp;
 
     /* pinmux for sdmmc0 */
