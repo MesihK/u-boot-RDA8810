@@ -667,6 +667,10 @@ static void cmd_erase(const char *arg, void *data, loff_t sz)
 
 static unsigned char raw_header[2048];
 
+extern int hal_BoardSetup(void);
+extern int mdcom_load_from_flash(int cal_en);
+extern int mdcom_check_and_wait_modem(int check_boot_key);
+
 static void cmd_boot(const char *arg, void *data, loff_t sz)
 {
 	boot_img_hdr *hdr = (boot_img_hdr *) raw_header;
@@ -713,6 +717,14 @@ static void cmd_boot(const char *arg, void *data, loff_t sz)
 	udc_power_off();
 	creat_atags(hdr->tags_addr, cmdline, hdr->ramdisk_addr,
 		    hdr->ramdisk_size);
+
+#ifdef CONFIG_RDA_MUX_CONFIG
+	hal_BoardSetup(); //mux_config
+#endif
+#ifdef CONFIG_CMD_MDCOM
+	mdcom_load_from_flash(0);
+	mdcom_check_and_wait_modem(1);
+#endif
 
 	cleanup_before_linux();
 	boot_linux(hdr->kernel_addr, hdr->tags_addr);
