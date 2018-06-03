@@ -267,20 +267,16 @@
 #ifndef CONFIG_SDMMC_BOOT
 
 #define CONFIG_EXTRA_ENV_SETTINGS	\
-	"add_all_mtd=setenv bootargs $bootargs "MTDPARTS_DEFAULT"\0" \
-	"add_kernel_mtd=setenv bootargs $bootargs "MTDPARTS_KERNEL_DEFAULT"\0" \
-	"add_serialno=setenv bootargs $bootargs androidboot.serialno=$serialno\0" \
+	"script_addr=81000000\0" \
+	"kernel_addr=84000000\0" \
 	""
 
 #define CONFIG_BOOTARGS \
 	"mem="MK_STR(MEM_SIZE)"M " \
-	"selinux=1 " \
-	"androidboot.selinux=permissive " \
 	"console=ttyS0," MK_STR(CONFIG_BAUDRATE) " " \
-	"root=/dev/ram rw " \
-	"rdinit=/init" \
 
 #else /* !CONFIG_SDMMC_BOOT */
+
 
 #define CONFIG_EXTRA_ENV_SETTINGS	\
 	"script_addr=81000000\0" \
@@ -304,8 +300,8 @@
 #else /* CONFIG_RDA_PDL */
 #ifndef CONFIG_SDMMC_BOOT
 
-#define CONFIG_PREBOOT "rdabminit && adjust_bootdelay && mtdparts default && get_flash_intf && get_emmc_id && rdachkfactag"
-#define CONFIG_BOOTCOMMAND "mux_config && setenv bootargs $bootargs $flash_if $emmc_id &&run add_serialno &&if test $bootmode -eq 0; then echo NORMAL BOOT && get_lcd_name && setenv bootargs $bootargs $lcd &&run add_kernel_mtd && mdcom_loadf 0 && mdcom_check 1 && load_boot && get_android_bm && if test $chargerboot -eq 1; then echo CHARGER BOOT &&load_ap_recovery;else true; fi && get_bootlogo_name && setenv bootargs $bootargs $androidboot $bootlogo &&abootm 82000000;else true; fi && if test $bootmode -eq 1; then echo CALIBRATION && mdcom_loadf 1 && mdcom_check 0 && mdcom_cal;else true; fi && if test $bootmode -eq 2; then echo FACTORY && get_lcd_name && setenv bootargs $bootargs $lcd &&run add_all_mtd && load_recovery && get_android_bm && get_bootlogo_name && setenv bootargs $bootargs $androidboot $bootlogo &&abootm 82000000;else true; fi && if test $bootmode -eq 3; then echo FASTBOOT && fastboot;else true; fi && if test $bootmode -eq 4; then echo RECOVERY && get_lcd_name && setenv bootargs $bootargs $lcd &&run add_all_mtd && load_recovery && get_android_bm && get_bootlogo_name && setenv bootargs $bootargs $androidboot $bootlogo &&abootm 82000000;else true; fi && if test $bootmode -eq 5; then echo AUTOCALL && mdcom_loadf 0 && mdcom_check 0 && mdcom_cal;else true; fi &&if test $bootmode -eq 6; then echo force downloading && pdl2;else true; fi"
+#define CONFIG_PREBOOT "mtdparts default"
+#define CONFIG_BOOTCOMMAND "mux_config; mdcom_loadf && mdcom_check 0; setenv mtdparts "MTDPARTS_KERNEL_DEFAULT"; ubi part rootfs; ubifsmount rootfs; ubifsload ${script_addr} /boot/boot.scr && source ${script_addr};echo Running boot script failed;"
 
 #else /* !CONFIG_SDMMC_BOOT */
 
