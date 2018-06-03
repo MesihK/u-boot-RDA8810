@@ -1079,7 +1079,7 @@ int nand_read_skip_bad_new(nand_info_t * nand, loff_t offset,
 	if (need_skip < 0) {
 		printf("Attempt to read outside the flash area\n");
 		*length = 0;
-		return -EINVAL;
+		return -EFAULT;
 	}
 
 	if (!need_skip) {
