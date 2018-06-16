@@ -476,13 +476,9 @@ int _nand_read_partition(const char *part_name, u8 *data, size_t  offset,
 	} else {
 		ret = nand_read_skip_bad(nand, part->offset + offset, &size,
 			(u_char *)data);
-		if(ret < 0 && ret != -EFAULT) {
+		if(ret < 0) {
 			pdl_error("%s: read from nand error\n", __func__);
 			return DEVICE_ERROR;
-		}
-		if (ret == -EFAULT) {
-			size = 0;
-			pdl_dbg("%s: end of partition reached\n", __func__);
 		}
 	}
 	if(actual_len)
