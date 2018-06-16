@@ -7,7 +7,7 @@ int nand_data_end(uint32_t crc);
 int nand_read_partition(const char *part_name, unsigned char *data,
 		size_t size, size_t *actual_len);
 int _nand_read_partition(const char *part_name, unsigned char *data,
-		size_t offset, size_t size, size_t *actual_len);
+		size_t offset, size_t size, size_t *actual_len, u8 bad_block_check);
 int nand_write_partition(const char *part_name, unsigned char *data,
 		size_t size);
 int nand_format_flash(void);

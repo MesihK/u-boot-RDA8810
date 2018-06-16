@@ -419,11 +419,11 @@ int nand_read_partition(const char *part_name, u8 *data, size_t size,
 		return OPERATION_FAILED;
 	}
 
-	return _nand_read_partition(part_name, data, 0, size, actual_len);
+	return _nand_read_partition(part_name, data, 0, size, actual_len, 0);
 }
 
 int _nand_read_partition(const char *part_name, u8 *data, size_t  offset,
-		size_t size, size_t *actual_len)
+		size_t size, size_t *actual_len, u8 bad_block_check)
 {
 	struct part_info *part = NULL;
         u8 part_num;
@@ -474,8 +474,21 @@ int _nand_read_partition(const char *part_name, u8 *data, size_t  offset,
 			return DEVICE_ERROR;
 		}
 	} else {
-		ret = nand_read_skip_bad(nand, part->offset + offset, &size,
-			(u_char *)data);
+		if (bad_block_check) {
+			if (nand_block_isbad(nand, part->offset + offset)) {
+				printf("bad block at 0x%08llx\n", part->offset + offset);
+				size = 0;
+				ret = 0;
+			}
+			else {
+				ret = nand_read(nand, part->offset + offset, &size,
+					(u_char *)data);
+			}
+		}
+		else {
+			ret = nand_read_skip_bad(nand, part->offset + offset, &size,
+				(u_char *)data);
+		}
 		if(ret < 0) {
 			pdl_error("%s: read from nand error\n", __func__);
 			return DEVICE_ERROR;

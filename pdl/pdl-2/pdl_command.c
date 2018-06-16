@@ -236,7 +236,7 @@ int read_partition(struct pdl_packet *packet, void *arg)
 				&actual_len);
 	else
 		ret = _nand_read_partition(part_name, data, offset, size,
-				&actual_len);
+				&actual_len, 1);
 	if (ret) {
 		pdl_send_rsp(ret);
 		ret = -1;
