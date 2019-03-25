@@ -61,4 +61,6 @@ u16 rda_metal_id_get(void);
 u16 rda_bond_id_get(void);
 void rda_nand_iodrive_set(void);
 
+void rda_hwcfg_to_sdcard_boot(void);
+
 #endif // __RDA_HWCFG_H

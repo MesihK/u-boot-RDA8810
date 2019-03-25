@@ -68,6 +68,16 @@ u16 rda_hwcfg_get(void)
 	return hwcfg;
 }
 
+void rda_hwcfg_to_sdcard_boot(void)
+{
+	u16 hwcfg = GET_BITFIELD(RDA_HWCFG_SWCFG, SYS_CTRL_BOOT_MODE);
+
+	hwcfg |= 1<<2; // BOOT_MODE_BOOT_EMMC
+
+	RDA_HWCFG_SWCFG = SET_BITFIELD(RDA_HWCFG_SWCFG,
+			SYS_CTRL_BOOT_MODE, hwcfg);
+}
+
 void rda_swcfg_reg_set(u16 swcfg)
 {
 	hwp_sysCtrlMd->Reset_Cause = SET_BITFIELD(hwp_sysCtrlMd->Reset_Cause,

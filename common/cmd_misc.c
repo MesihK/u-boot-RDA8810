@@ -144,6 +144,12 @@ int do_rdabminit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	return 0;
 }
 
+int do_hwcfg_to_sdcard_boot(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+{
+	rda_hwcfg_to_sdcard_boot();
+	return 0;
+}
+
 static int get_lcd_name(void)
 {
 	char lcd_paras[50] = "lcd=";
@@ -653,6 +659,13 @@ U_BOOT_CMD(
 	"init rda boot_mode",
 	"Syntax:\n"
 	"    - rdabminit\n"
+);
+
+U_BOOT_CMD(
+	hwcfg_to_sdcard_boot ,    1,    1,     do_hwcfg_to_sdcard_boot,
+	"set hwcfg to sdcard boot [hack]",
+	"Syntax:\n"
+	"    - hwcfg_to_sdcard_boot\n"
 );
 
 U_BOOT_CMD(
