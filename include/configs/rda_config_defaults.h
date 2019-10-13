@@ -68,7 +68,7 @@
  * The macro will be obsoleted for future chips, after ROM is updated to
  * provide such information.
  */
-/*#define CONFIG_SDMMC_BOOT*/
+#define CONFIG_SDMMC_BOOT
 
 #ifdef CONFIG_SDMMC_BOOT /* sdcard */
 #define CONFIG_MMC_DEV_NUM	0
