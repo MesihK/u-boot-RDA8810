@@ -700,6 +700,21 @@ static void pmu_get_efuse_dcdc(int buckVoltLow[])
 }
 #endif
 
+static void v_mmc_set(void)
+{
+	//ispi_open(1);
+
+	u16 v_mmc = pmu_reg_read(6); //6 - reg RDA_ADDR_LDO_ACTIVE_SETTING4
+	v_mmc |= 7<<3; //7 - 3.2v
+	pmu_reg_write(6, v_mmc);
+
+	u16 v_mmc_is_low = pmu_reg_read(4); //4 - reg RDA_ADDR_LDO_ACTIVE_SETTING2
+	v_mmc_is_low &= ~(1<<8);
+	pmu_reg_write(4, v_mmc_is_low);
+
+	//ispi_open(0);
+}
+
 static void pmu_setup_init(void)
 {
 	u32 value;
@@ -770,6 +785,9 @@ static void pmu_setup_init(void)
 	// DDR power parameters
 	pmu_reg_write(0x4A, 0x96AA);
 	pmu_reg_write(0x4B, 0x96AA);
+
+	// Set v_mmc to 3V
+	v_mmc_set();
 
 	ispi_open(0);
 	printf("PMU vbuck1 = %u, vbuck3 = %u\n", PMU_VBUCK1_VAL, PMU_VBUCK3_VAL);
