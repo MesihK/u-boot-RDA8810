@@ -218,7 +218,7 @@ PROTECTED VOID hal_BoardSetupGeneral(CONST HAL_CFG_CONFIG_T* halCfg)
     if ((g_bootBootMode & emmcBootModeMask) == BOOT_MODE_BOOT_EMMC)
     {
         // Boot from EMMC
-        HAL_ASSERT(halCfg->sdmmcCfg.sdmmc3Used, "SDMMC3 (EMMC) should be used");
+        //HAL_ASSERT(halCfg->sdmmcCfg.sdmmc3Used, "SDMMC3 (EMMC) should be used");
     }
 
     if (metalId < 0x0B)
