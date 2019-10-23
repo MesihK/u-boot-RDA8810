@@ -26,6 +26,7 @@
 #include <command.h>
 #include <ide.h>
 #include <part.h>
+#include <u-boot/md5.h>
 #include <mmc/sparse.h>
 
 #undef	PART_DEBUG
@@ -313,7 +314,7 @@ int partition_erase_bytes(block_dev_desc_t *dev, disk_partition_t *ptn,
 	return _partition_erase(dev, ptn, bytecnt, NULL);
 }
 
-#ifdef CONFIG_MD5
+/*#ifdef CONFIG_MD5
 void partition_md5_helper(block_dev_desc_t *dev, lbaint_t blk_start,
 				lbaint_t *blkcnt, unsigned char md5[16])
 {
@@ -353,20 +354,20 @@ void partition_md5_helper(block_dev_desc_t *dev, lbaint_t blk_start,
 
 	free(buf);
 	*blkcnt -= blks_left;
-}
-static int _partition_md5(block_dev_desc_t *dev, disk_partition_t *ptn,
+}*/
+/*static int _partition_md5(block_dev_desc_t *dev, disk_partition_t *ptn,
 				loff_t *bytecnt_p, lbaint_t *blkcnt_p,
 				unsigned char md5[16])
-{
+{*/
 	/*
 	 * Fetch the number of bytes or blocks and then zero them right away
 	 * to make the error handling easier.
 	 */
-	loff_t bytes_to_do = get_and_zero_loff_t(bytecnt_p);
-	lbaint_t blks_to_do = get_and_zero_lbaint_t(blkcnt_p), blks_done;
-	int err = _partition_validate(dev, ptn, bytecnt_p, blkcnt_p,
-							(void *)-1/*fake*/);
-	if (err)
+//	loff_t bytes_to_do = get_and_zero_loff_t(bytecnt_p);
+//	lbaint_t blks_to_do = get_and_zero_lbaint_t(blkcnt_p), blks_done;
+//	int err = _partition_validate(dev, ptn, bytecnt_p, blkcnt_p,
+//							(void *)-1/*fake*/);
+/*	if (err)
 		return err;
 
 	err = partition_read_pre(ptn);
@@ -404,7 +405,7 @@ int partition_md5_bytes(block_dev_desc_t *dev, disk_partition_t *ptn,
 {
 	return _partition_md5(dev, ptn, bytecnt, NULL, md5);
 }
-#endif /* CONFIG_MD5 */
+#endif*/ /* CONFIG_MD5 */
 
 static int _partition_read(block_dev_desc_t *dev, disk_partition_t *ptn,
 				loff_t *bytecnt_p, lbaint_t *blkcnt_p,

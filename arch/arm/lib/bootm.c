@@ -334,8 +334,10 @@ static void boot_jump_linux(bootm_headers_t *images)
 	announce_and_cleanup();
 
 #ifdef CONFIG_OF_LIBFDT
-	if (images->ft_len)
+	if (images->ft_len){
 		r2 = (unsigned long)images->ft_addr;
+		debug("## r2 %08lx\n", (ulong)r2); 
+	}
 	else
 #endif
 		r2 = gd->bd->bi_boot_params;

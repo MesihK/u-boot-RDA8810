@@ -27,6 +27,10 @@ include $(TOPDIR)/config.mk
 
 LIB	= $(obj)libdisk.o
 
+ifdef CONFIG_MD5
+EXT_OBJ_FILES-y += lib/md5.o
+endif
+
 COBJS-$(CONFIG_PARTITIONS) 	+= part.o
 COBJS-$(CONFIG_MAC_PARTITION)   += part_mac.o
 COBJS-$(CONFIG_DOS_PARTITION)   += part_dos.o

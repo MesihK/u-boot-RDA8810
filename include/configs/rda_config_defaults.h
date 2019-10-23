@@ -19,12 +19,19 @@
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #define CONFIG_SYS_TEXT_BASE		0x80008000
 /* #define CONFIG_SYS_ICACHE_OFF */
-/* #define CONFIG_SYS_DCACHE_OFF */
+#define CONFIG_SYS_DCACHE_OFF
 /* #define CONFIG_SYS_NEON_OFF */
+
+//Enable FDT support
+#define CONFIG_FIT
+#define CONFIG_OF_LIBFDT
+#define CONFIG_BOOTSTAGE
+#define CONFIG_BOOTSTAGE_REPORT
 
 /* Display CPU and Board Info */
 #define CONFIG_DISPLAY_CPUINFO 		1
 #define CONFIG_DISPLAY_BOARDINFO	1
+#define DEBUG 1
 /*
  * Memory Info
  */
@@ -252,10 +259,10 @@
  * Linux Information
  */
 #define LINUX_BOOT_PARAM_ADDR		(PHYS_SDRAM_1 + 0x100)
-#define CONFIG_CMDLINE_TAG
-#define CONFIG_INITRD_TAG
-#define CONFIG_REVISION_TAG
-#define CONFIG_SETUP_MEMORY_TAGS
+//#define CONFIG_CMDLINE_TAG
+//#define CONFIG_INITRD_TAG
+//#define CONFIG_REVISION_TAG
+//#define CONFIG_SETUP_MEMORY_TAGS
 // #define CONFIG_SERIAL_TAG
 
 /* The delay to check whether to stop auto boot */

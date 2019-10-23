@@ -7,11 +7,11 @@
 #include <asm/arch/ifc.h>
 
 #undef assert
-#ifdef DEBUG
-#include <assert.h>
-#else
+//#ifdef DEBUG
+//#include <assert.h>
+//#else
 #define assert(...)
-#endif 
+//#endif 
 
 #define HAL_TRACE(...)
 
