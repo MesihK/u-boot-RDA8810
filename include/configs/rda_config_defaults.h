@@ -31,7 +31,7 @@
 /* Display CPU and Board Info */
 #define CONFIG_DISPLAY_CPUINFO 		1
 #define CONFIG_DISPLAY_BOARDINFO	1
-#define DEBUG 1
+//#define DEBUG 1
 /*
  * Memory Info
  */
@@ -317,10 +317,10 @@
 #else /* !CONFIG_SDMMC_BOOT */
 
 #define CONFIG_BOOTCOMMAND		\
-	"mux_config; "		\
-	"mmc dev 0; "		\
-	"ext2load mmc 0:1 ${script_addr} boot.scr && source ${script_addr};" \
-	"echo Running boot script failed;"
+	"fatload mmc 0:1 0x84000000 zImage;" \
+	"fatload mmc 0:1 0x81000000 rda2g.dtb;" \
+	"setenv bootargs 'console=ttyRDA2,921600n8 lpj=3274752';" \
+	"bootz 0x84000000 - 0x81000000;" 
 
 #endif /* !CONFIG_SDMMC_BOOT */
 #endif /* CONFIG_RDA_PDL */
